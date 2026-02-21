@@ -584,7 +584,7 @@
             }
         });
 
-        // Second video: force autoplay (zeynah.video1.mp4) – no user click needed
+        // Second video: Autoplay + Start bei erstem Klick/Scroll/Touch (Browser blockiert sonst oft)
         const v2 = document.getElementById('contact-video');
         if (v2) {
             v2.muted = true;
@@ -595,9 +595,7 @@
             document.addEventListener('visibilitychange', function () {
                 if (document.visibilityState === 'visible' && v2.paused) v2.play().catch(function() {});
             });
-            setInterval(function () {
-                if (v2.paused) v2.play().catch(function() {});
-            }, 1200);
+            setInterval(function () { if (v2.paused) v2.play().catch(function() {}); }, 1200);
             if (typeof IntersectionObserver !== 'undefined') {
                 new IntersectionObserver(function (entries) {
                     entries.forEach(function (e) {
@@ -605,6 +603,15 @@
                     });
                 }, { threshold: 0.2 }).observe(v2);
             }
+            function startOnInteraction() {
+                v2.play().catch(function() {});
+                document.removeEventListener('click', startOnInteraction);
+                document.removeEventListener('scroll', startOnInteraction);
+                document.removeEventListener('touchstart', startOnInteraction);
+            }
+            document.addEventListener('click', startOnInteraction, { once: true });
+            document.addEventListener('scroll', startOnInteraction, { once: true });
+            document.addEventListener('touchstart', startOnInteraction, { once: true });
         }
     </script>
     <!-- Floating WhatsApp Button -->
