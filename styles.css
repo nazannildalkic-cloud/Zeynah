@@ -16,9 +16,11 @@
   --card: #1a2332;
   --text: #e8eef7;
   --muted: #8b95a8;
-  --border: rgba(0, 212, 255, 0.1);
-  --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --border: rgba(0, 212, 255, 0.15);
+  --border-bright: rgba(0, 212, 255, 0.3);
+  --glass: rgba(26, 35, 50, 0.7);
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   --rock: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -1087,7 +1089,7 @@ section::after {
   background: linear-gradient(180deg, rgba(35, 50, 80, 0.4) 0%, rgba(15, 23, 42, 0.9) 100%);
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(0, 212, 255, 0.1);
-  padding: 30px 0 15px;
+  padding: 24px 0 15px;
 }
 
 .footer-grid {
@@ -1490,4 +1492,255 @@ section::after {
   section {
     page-break-inside: avoid;
   }
+}
+
+/* ========== PREMIUM AESTHETIC ENHANCEMENTS ========== */
+.card {
+  background: var(--glass) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: var(--cyan);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 212, 255, 0.1);
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+  transition: 0.6s;
+}
+
+.card:hover::after {
+  left: 150%;
+}
+
+.service-card .card-icon {
+  font-size: 40px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 10px var(--cyan-glow));
+  transition: var(--transition);
+}
+
+.card:hover .card-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* ========== TRUST BAR SECTION ========== */
+.trust-bar {
+  padding: 40px 0;
+  background: rgba(10, 14, 26, 0.5);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-top: -30px;
+  position: relative;
+  z-index: 10;
+}
+
+.trust-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: var(--transition);
+}
+
+.trust-item i {
+  color: var(--cyan);
+  font-size: 18px;
+}
+
+.trust-item:hover {
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+/* ========== HERO VIDEO + PLAY BUTTON (Mobile) ========== */
+.hero-video-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.hero-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 212, 255, 0.9);
+  color: #0a0a0f;
+  font-size: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px rgba(0, 212, 255, 0.5);
+  transition: transform 0.2s, background 0.2s;
+  z-index: 2;
+}
+.hero-play-btn:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+  background: rgba(0, 212, 255, 1);
+}
+.hero-play-btn.hidden {
+  display: none !important;
+}
+
+/* ========== VIDEO FRAME & GLOW ========== */
+.hero-visual video,
+.contact-visual video {
+  border: 1px solid var(--border-bright) !important;
+  padding: 8px;
+  background: rgba(0, 212, 255, 0.05);
+  transition: var(--transition);
+}
+
+.hero-visual:hover video,
+.contact-visual:hover video {
+  border-color: var(--cyan) !important;
+  box-shadow: 0 0 40px var(--cyan-glow) !important;
+}
+
+/* ========== TEXT REVEAL ANIMATION ========== */
+@keyframes textReveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.hero h1 span.gradient {
+  display: inline-block;
+  animation: gradientShift 4s ease-in-out infinite, textReveal 1s ease-out;
+}
+
+/* ========== MODERN FOOTER ADJUSTMENTS ========== */
+.footer-col h5 {
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.footer-col h5::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 20px;
+  height: 2px;
+  background: var(--cyan);
+  transition: var(--transition);
+}
+
+.footer-col:hover h5::after {
+  width: 40px;
+}
+
+.footer-col li a:hover {
+  padding-left: 8px;
+  color: var(--cyan) !important;
+}
+
+/* ========== WOW EXPERIENCE SECTION ========== */
+.wow-section {
+  padding: 100px 0;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.08), transparent 70%);
+  position: relative;
+  overflow: hidden;
+}
+
+.wow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  margin-top: 60px;
+}
+
+.wow-card {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 40px 30px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.wow-card:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+  transform: translateY(-15px);
+  border-color: var(--cyan);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.wow-icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30px;
+  font-size: 36px;
+  color: var(--cyan);
+  transition: all 0.4s ease;
+}
+
+.wow-card:hover .wow-icon {
+  background: var(--cyan);
+  color: var(--white);
+  transform: scale(1.1) rotate(12deg);
+  box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+}
+
+.wow-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: var(--white);
+}
+
+.wow-card p {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.whatsapp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(37, 211, 102, 0.1);
+  color: #25D366;
+  padding: 6px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 15px;
 }

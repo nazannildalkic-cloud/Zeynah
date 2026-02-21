@@ -286,7 +286,7 @@
     </section>
 
     <footer class="compact-footer"
-        style="padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 40px;">
+        style="padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 20px;">
         <div class="container">
             <div class="footer-row"
                 style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 20px;">
@@ -584,34 +584,17 @@
             }
         });
 
-        // Second video: Autoplay + Start bei erstem Klick/Scroll/Touch (Browser blockiert sonst oft)
+        // Fail-safe for secondary video (zeynah.video1.mp4)
         const v2 = document.getElementById('contact-video');
         if (v2) {
-            v2.muted = true;
-            v2.setAttribute('playsinline', '');
-            v2.setAttribute('autoplay', '');
-            v2.play().catch(function() {});
-            v2.addEventListener('error', function () { v2.load(); v2.play().catch(function() {}); });
-            document.addEventListener('visibilitychange', function () {
-                if (document.visibilityState === 'visible' && v2.paused) v2.play().catch(function() {});
+            v2.addEventListener('error', function () {
+                console.error("Video 2 failed to load, retrying...");
+                v2.load();
             });
-            setInterval(function () { if (v2.paused) v2.play().catch(function() {}); }, 1200);
-            if (typeof IntersectionObserver !== 'undefined') {
-                new IntersectionObserver(function (entries) {
-                    entries.forEach(function (e) {
-                        if (e.isIntersecting && v2.paused) v2.play().catch(function() {});
-                    });
-                }, { threshold: 0.2 }).observe(v2);
-            }
-            function startOnInteraction() {
-                v2.play().catch(function() {});
-                document.removeEventListener('click', startOnInteraction);
-                document.removeEventListener('scroll', startOnInteraction);
-                document.removeEventListener('touchstart', startOnInteraction);
-            }
-            document.addEventListener('click', startOnInteraction, { once: true });
-            document.addEventListener('scroll', startOnInteraction, { once: true });
-            document.addEventListener('touchstart', startOnInteraction, { once: true });
+            // Nudge play every 2 seconds if paused and visible
+            setInterval(() => {
+                if (v2.paused) v2.play().catch(() => { });
+            }, 2000);
         }
     </script>
     <!-- Floating WhatsApp Button -->
